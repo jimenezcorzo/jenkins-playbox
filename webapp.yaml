@@ -16,7 +16,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: 10.12.91.186:30500/paco/webapp:latest
+      - image: 10.12.91.186:30500/paco/webapp:3
         imagePullPolicy: Always
         name: myweb
 
