@@ -1,35 +1,29 @@
 pipeline {
-
-  environment {
-    registry = "10.12.91.186:30500/paco/webapp"
-    dockerImage = ""
-  }
-
   agent any
-
   stages {
-
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/jimenezcorzo/jenkins-playbox.git'
+        git(url: 'https://github.com/jimenezcorzo/jenkins-playbox.git', poll: true, credentialsId: 'git-access')
       }
     }
 
     stage('Build image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+
       }
     }
 
     stage('Push Image') {
-      steps{
+      steps {
         script {
           docker.withRegistry( "" ) {
             dockerImage.push()
           }
         }
+
       }
     }
 
@@ -38,9 +32,13 @@ pipeline {
         script {
           kubernetesDeploy(configs: "webapp.yaml", kubeconfigId: "kubeconfig")
         }
+
       }
     }
 
   }
-
+  environment {
+    registry = '10.12.91.186:30500/paco/webapp'
+    dockerImage = ''
+  }
 }
