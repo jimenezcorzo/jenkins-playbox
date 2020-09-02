@@ -1,2 +1,2 @@
 #!/bin/bash
-sed "s/ImageTag/$1/g" webapp.yaml > webapp.yaml
+sed "s/ImageTag/$1/g" webapp.yaml > webapp-final.yaml
