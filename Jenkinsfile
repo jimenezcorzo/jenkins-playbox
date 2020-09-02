@@ -32,7 +32,7 @@ pipeline {
         sh "cat webapp.yaml"
         sh "chmod +x updateImageTag.sh"
         sh "./updateImageTag.sh $BUILD_NUMBER"
-        sh "cat webapp.yaml"
+        sh "cat webapp-final.yaml"
         script {
           kubernetesDeploy(configs: "webapp-final.yaml", kubeconfigId: "kubeconfig")
         }
