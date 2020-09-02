@@ -29,6 +29,8 @@ pipeline {
 
     stage('Deploy App') {
       steps {
+        sh "chmod -x updateImageTag.sh"
+        sh "./updateImageTag.sh $BUILD_NUMBER"
         script {
           kubernetesDeploy(configs: "webapp.yaml", kubeconfigId: "kubeconfig")
         }
