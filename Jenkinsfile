@@ -4,16 +4,16 @@ pipeline {
     stage('Checkout Source') {
       steps {
         git(url: 'https://github.com/jimenezcorzo/jenkins-playbox.git', poll: true, credentialsId: 'git-access')
+        slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Check Source Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
       }
-      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Check Source Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
     }
 
     stage('Build image') {
       steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Build Image Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
         }
-      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Build Image Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
       }
     }
 
