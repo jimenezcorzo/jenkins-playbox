@@ -3,6 +3,7 @@ pipeline {
   stages {
     stage('Checkout Source') {
       steps {
+        slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Iniciando ejecucion de pipeline para WebApp...', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'
         git(url: 'https://github.com/jimenezcorzo/jenkins-playbox.git', poll: true, credentialsId: 'git-access')
         slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Check Source Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
       }
