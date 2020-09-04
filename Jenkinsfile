@@ -5,6 +5,7 @@ pipeline {
       steps {
         git(url: 'https://github.com/jimenezcorzo/jenkins-playbox.git', poll: true, credentialsId: 'git-access')
       }
+      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Check Source Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
     }
 
     stage('Build image') {
@@ -12,7 +13,7 @@ pipeline {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
-
+      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Build Image Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
       }
     }
 
@@ -22,6 +23,7 @@ pipeline {
           docker.withRegistry( "" ) {
             dockerImage.push()
           }
+        slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino Push Image Stage', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'  
         }
 
       }
@@ -36,7 +38,7 @@ pipeline {
         script {
           kubernetesDeploy(configs: "webapp-final.yaml", kubeconfigId: "kubeconfig")
         }
-      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino el pipeline, tenemos ahora la version $BUILD_NUMBER', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'
+      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino el pipeline, habemus nueva version de WebApp...', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'
       }
     }
 
