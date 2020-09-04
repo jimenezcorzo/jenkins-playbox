@@ -36,7 +36,7 @@ pipeline {
         script {
           kubernetesDeploy(configs: "webapp-final.yaml", kubeconfigId: "kubeconfig")
         }
-
+      slackSend baseUrl: 'https://hooks.slack.com/services/', channel: 'devsecops-mx-pipeline-demo', color: 'good', message: 'Termino el pipeline, tenemos ahora la version $BUILD_NUMBER', teamDomain: 'devsecops-ibm', tokenCredentialId: 'Slack-pipeline', username: 'Pipeline Bot'
       }
     }
 
